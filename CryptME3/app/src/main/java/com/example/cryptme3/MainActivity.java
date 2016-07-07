@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     Button btnAdd;
     EditText editText;
+    TextView tv;
     Boolean clicked = false;
 
 
@@ -38,17 +40,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+       // Context curr = getApplicationContext();
+        Toast.makeText(getApplicationContext(), "Debug", Toast.LENGTH_LONG);
 
         lv = (ListView)findViewById(R.id.listView);
         list = new ArrayList<String>();
         btnAdd = (Button)findViewById(R.id.button2);
         editText = (EditText)findViewById(R.id.editText);
+        tv = (TextView)findViewById(R.id.tv_test);
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, list);
 
         //assign and adapter to the listView
         lv.setAdapter(adapter);
         //ListView onClickLister
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -84,8 +90,10 @@ public class MainActivity extends AppCompatActivity {
                 View displayView = li.inflate(R.layout.display, null);
 
 
+
                 if(clicked==false) {
                     clicked =true;
+
                     AlertDialog.Builder alertDialogBuilderSetPass = new AlertDialog.Builder(
                             context);
 
@@ -104,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
 
                     final EditText cPassword = (EditText) promptsView
                             .findViewById(R.id.editText2);
+                    final EditText confirmPassword = (EditText) displayView
+                            .findViewById(R.id.editText3);
+                    final Button display = (Button) displayView.findViewById(R.id.btnDisplay);
                     // set dialog message
                     alertDialogBuilderSetPass
                             .setCancelable(false)
@@ -114,10 +125,12 @@ public class MainActivity extends AppCompatActivity {
                                             // edit text
                                             //result.setText(userInput.getText());
                                             if (password.getText().toString().equals(cPassword.getText().toString())) {
-                                                Toast.makeText(getApplicationContext(), password.getText().toString(), Toast.LENGTH_LONG);
+                                                tv.setText("Password's Match");
+                                               // Toast.makeText(getApplicationContext(), password.getText().toString(), Toast.LENGTH_LONG);
 
                                             } else {
-                                                Toast.makeText(getApplicationContext(), "Password do not match. Please try again", Toast.LENGTH_LONG);
+                                                tv.setText("Password's Not a match");
+                                                //Toast.makeText(getApplicationContext(), "Password do not match. Please try again", Toast.LENGTH_LONG);
                                             }
                                         }
                                     })
@@ -142,10 +155,15 @@ public class MainActivity extends AppCompatActivity {
                      */
 
 
+
                     AlertDialog.Builder alertDialogBuilderShowPass = new AlertDialog.Builder(
                             context);
+                    alertDialogBuilderShowPass.setView(displayView);
                     final EditText confirmPassword = (EditText) displayView
                             .findViewById(R.id.editText3);
+                    final Button display = (Button) displayView.findViewById(R.id.btnDisplay);
+
+
                     // set dialog message
                     alertDialogBuilderShowPass
                             .setCancelable(false)
@@ -155,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                                             // get user input and set it to result
                                             // edit text
                                             //result.setText(userInput.getText());
-                                            Toast.makeText(getApplicationContext(), "Password Confirmed", Toast.LENGTH_LONG);
+                                            //Toast.makeText(getApplicationContext(), "Password Confirmed", Toast.LENGTH_LONG);
 
                                         }
                                     })
@@ -194,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String input = editText.getText().toString();
                     list.add(input);
+                Toast.makeText(getApplicationContext(), input, Toast.LENGTH_LONG);
 
             }
         });
