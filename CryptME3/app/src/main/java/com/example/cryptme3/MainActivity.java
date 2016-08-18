@@ -1,6 +1,7 @@
 package com.example.cryptme3;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -127,15 +128,15 @@ public class MainActivity extends Activity {
                                     int position, long id) {
 
                 // ListView Clicked item index
-                //int itemPosition     = position;
+                int itemPosition     = position;
 
                 // ListView Clicked item value
-                //String  itemValue    = (String) lv.getItemAtPosition(position);
+                String  itemValue    = (String) lv.getItemAtPosition(position);
 
                 // Show Alert
-                // Toast.makeText(getApplicationContext(),
-                //       "Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
-                //        .show();
+                 Toast.makeText(getApplicationContext(),
+                     "Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
+                      .show();
 
 
                 //AlertDialog Example 1
@@ -153,176 +154,64 @@ public class MainActivity extends Activity {
 
 
 
-                /** First Click   */
-                if(clicked==false) {
-                    clicked =true;
-
-
-                }
-
-
-
-
-                /** Second Click   */
-
-                else if(clicked) {
-                        clicked=false;
-                    /**
-                     *
-                     *      Show Password AlertDialog
-                     *
-                     */
-
-
-
-
-                    /** Temporariry Disables   */
-
-
-                    /*AlertDialog.Builder alertDialogBuilderShowPass = new AlertDialog.Builder(
-                            context);
-                    alertDialogBuilderShowPass.setView(displayView);
-                    final EditText confirmPassword = (EditText) displayView
-                            .findViewById(R.id.editText3);
-                    final Button display = (Button) displayView.findViewById(R.id.btnDisplay);
-
-
-                    // set dialog message
-                    alertDialogBuilderShowPass
-                            .setCancelable(false)
-                            .setPositiveButton("OK",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            // get user input and set it to result
-                                            // edit text
-                                            //result.setText(userInput.getText());
-                                            //Toast.makeText(getApplicationContext(), "Password Confirmed", Toast.LENGTH_LONG);
-
-                                        }
-                                    })
-                            .setNegativeButton("Cancel",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    });
-
-                    // create alert dialog
-                    AlertDialog alertDialogShowPass = alertDialogBuilderShowPass.create();
-
-                    // show it
-                    alertDialogShowPass.show();*/
-                }
 
             }
 
     });
 
+        btnAdd = (Button) findViewById(R.id.btnAdd);
 
-
-
-
-
-
-
-
-
-
-
-        //Button onClickListener When you add a password and place
-
+        // add button listener
         btnAdd.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-               // @SuppressWarnings("unchecked");
+
+            @Override
+            public void onClick(View arg0) {
+
+                // custom dialog
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.prompts);
+                dialog.setTitle("Please fill out the information below");
+
+                // set the custom dialog components - text, image and button
+               final EditText name = (EditText) dialog.findViewById(R.id.et_name);
+               //EditText type = (spinner) dialog.findViewById(R.id.spinner);
+               final EditText password = (EditText) dialog.findViewById(R.id.et_password);
+                final EditText cpassword = (EditText) dialog.findViewById(R.id.et_cpassword);
+                //text.setText("Android custom dialog example!");
+                //ImageView image = (ImageView) dialog.findViewById(R.id.image);
+                //image.setImageResource(R.drawable.ic_launcher);
+                Button addInfo = (Button) dialog.findViewById(R.id.btnAddInfo);
+                // if button is clicked, close the custom dialog
+
+                addInfo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       /* Toast.makeText(getApplicationContext(),"Name: " + name.getText().toString() + "\n" +
+                                                                "Password :" + password.getText().toString() + "\n" +
+                                                                 "Confirm Password: " + cpassword.getText().toString(),Toast.LENGTH_LONG).show();*/
+                       // list.add(name.getText().toString());
+                        list.add(name.getText().toString());
+                        adapter.notifyDataSetChanged();
+                        dialog.dismiss();
 
 
-                AlertDialog.Builder alertDialogBuilderSetPass = new AlertDialog.Builder(
-                        context);
-
-
-                // set prompts.xml to alertdialog builder
-                alertDialogBuilderSetPass.setView(promptsView);
-
-
-                /**
-                 *
-                 *      Set Password AlertDialog
-                 *
-                 */
-                final EditText password = (EditText) promptsView
-                        .findViewById(R.id.editTextDialogUserInput);
-
-                final EditText cPassword = (EditText) promptsView
-                        .findViewById(R.id.editText2);
-                // For spinner
-                //final String type =
-
-                final EditText name = (EditText) promptsView.findViewById(R.id.ed_name);
-
-
-
-                // set dialog message
-                alertDialogBuilderSetPass
-                        .setCancelable(false)
-                        .setPositiveButton("OK",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // get user input and set it to result
-                                        // edit text
-                                        //result.setText(userInput.getText());
-                                        if (password.getText().toString().equals(cPassword.getText().toString())) {
-                                            //tv.setText("Password's Match");
-                                             Toast.makeText(getApplicationContext(), password.getText().toString(), Toast.LENGTH_LONG).show();
-                                            String input = name.getText().toString();
-                                            list.add(input);
-                                            adapter.notifyDataSetChanged();
-
-                                        } else {
-                                            //tv.setText("Password's Not a match");
-                                            Toast.makeText(getApplicationContext(), "Password do not match. Please try again", Toast.LENGTH_LONG).show();
-                                        }
-                                    }
-                                })
-                        .setNegativeButton("Cancel",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-
-                // create alert dialog
-                AlertDialog alertDialogSetPass = alertDialogBuilderSetPass.create();
-
-                // show it
-                alertDialogSetPass.show();
-
-
-
-
-               /** Depricated  */
-               /* */
-
-
-
-                /** Temporarity Disabled   */
-               /* Passwords pass = new Passwords();
-                pass.setId(counter);
-                counter++;
-                pass.setName(input);
-                pass.setPassword("password1");
-                db.addPasswords(pass);
-                  // ArrayAdapter<Passwords> adapter = (ArrayAdapter<Passwords>)
-
-
-
-
-                //Toast.makeText(getApplicationContext(), input, Toast.LENGTH_LONG);
-                adapter.notifyDataSetChanged();*/
+                    }
+                });
+                /* Toast.makeText(getApplicationContext(),"Name: " + name.getText().toString() + "\n" +
+                                                                "Password :" + password.getText().toString() + "\n" +
+                                                                 "Confirm Password: " + cpassword.getText().toString(),Toast.LENGTH_LONG).show();*/
+                dialog.show();
+                //list.add(name.getText().toString());
+                //adapter.notifyDataSetChanged();
             }
         });
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+                    //Button onClickListener When you add a password and place
+
+
+                    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
