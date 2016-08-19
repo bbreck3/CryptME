@@ -45,6 +45,6 @@ public class Passwords {
     // ArrayAdapter in the LastView
     @Override
     public String toString(){
-        return password;
+        return id + " " + name + " " + password;
     }
 }

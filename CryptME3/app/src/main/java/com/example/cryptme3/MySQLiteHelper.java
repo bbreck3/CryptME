@@ -79,7 +79,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     }
 
     // Getting single contact
-    Passwords getPasword(int id) {
+    Passwords getPasword(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_PASSWORDS, new String[] { COLUMN_ID,
@@ -147,7 +147,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         String countQuery = "SELECT  * FROM " + TABLE_PASSWORDS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
+        //cursor.close(); --> commenting this line out seemed to fix a issues with error:
+                                // attempt to re open an already closed object
 
         // return count
         return cursor.getCount();

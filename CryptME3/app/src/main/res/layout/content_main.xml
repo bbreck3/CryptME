@@ -29,21 +29,7 @@
     <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/tv_test" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/tv_test"
-        android:layout_below="@+id/btnAdd"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:gravity="center" />
+        android:id="@+id/listView" />
 
 
 </RelativeLayout>

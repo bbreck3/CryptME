@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -46,7 +48,7 @@ public class MainActivity extends Activity {
     TextView tv;
     Boolean clicked = false;
     int counter = 3;
-    MySQLiteHelper db;
+
 
 
     //Views
@@ -74,18 +76,31 @@ public class MainActivity extends Activity {
 
         /**
          *
-         *  Database stuff
+         *  Database stuff: Testing
+         *
+         *  after commented out :
+         *
+         *  " cursor.close();" in getPasword Count "
+         *
+         *  THe error message seemed to go away: see "MySQLHelper.java -> method: getPasswordCount for more details
          *
          */
+        /*******************************************************
+         *
+         *      BEGIN DATABASE TESTING / DEBUGGING
+         *
+         *      SUCCESSFULLY
+         *
+         *****************************************************/
 
-       db = new MySQLiteHelper(this);
-        Log.d("Debug: ", "Database Instatiated");
+      // db = new MySQLiteHelper(this);
+       // Log.d("Debug: ", "Database Instatiated");
         //Passwords pass1 = new Passwords();
        // pass1.setId(2);
         //pass1.setName("Walmart");
         //pass1.setPassword("password");
 
-        Log.d("Debug: ", "Before adding Passwords");
+       // Log.d("Debug: ", "Before adding Passwords");
         //db.addPasswords(new Passwords(2,"Walmart", "password"));
        // Log.d("Debug: ", "After adding Passwords");
        // List<Passwords> pass2= db.getAllPasswords();
@@ -95,7 +110,7 @@ public class MainActivity extends Activity {
             Log.d("Pass Test: ", pass.getPassword().toString());
         }*/
        // int test = db.getPasswordCount();
-        //Log.d("Password Count ", Integer.toString(test));
+       // Log.d("Password Count ", Integer.toString(test));
         // This breaks it..... :(
        /* if(db.getPasswordCount() > 0){
             List<Passwords> passwords = db.getAllPasswords();
@@ -103,15 +118,83 @@ public class MainActivity extends Activity {
                 list.add(pswd.toString());
             }
         }*/
+       // Log.d("Debug: ", " after Passwords");
+
+      //  db.close();
+      // Log.d("Debug: ", "Database closed");
 
 
+        /*******************************************************
+         *
+         *      END DATABASE TESTING / DEBUGING
+         *
+         *****************************************************/
+
+        /*******************************************************
+         *
+         *      BEGIN DATABASE  TEST INSERTION / QUERRY
+         *      SUCCESSFULLY
+         *****************************************************/
+
+        //db1 = new MySQLiteHelper(this);
+       // Log.d("Debug: ", "Before adding Passwords");
+       // db1.addPasswords(new Passwords(1,"Walmart", "password"));
+        //Passwords password = new Passwords();
+        //password.setId(1);
+      //  db1.deletePassword(password);
+      //  int test1 = db1.getPasswordCount();
+      //  Log.d("Password Count ", Integer.toString(test1));
+
+       /**if(db1.getPasswordCount() > 0){
+            List<Passwords> passwords = db1.getAllPasswords();
+            for(Passwords pswd: passwords){
+                Log.d("Passwords: ", pswd.toString());
+            }
+        }*/
+        //Log.d("Querry: Password 1::  ", db1.getPasword(1).toString());
+        //Log.d("Debug: ", " after Passwords");
+
+
+
+       // db1.close();
+      //  Log.d("Debug: ", "Database closed");
+
+        /*******************************************************
+         *
+         *      END DATABASE  TEST INSERTION / QUERRY
+         *      SUCCESSFULLY
+         *****************************************************/
+
+        /*******************************************************
+         *
+         *
+         *      END DATABASE STUFF
+         *****************************************************/
+
+
+
+        /**
+         *
+         *  Begin ListView , Alert Dialog and Add Button
+         *
+         *
+         */
 
 
         lv = (ListView)findViewById(R.id.listView);
         list = new ArrayList<String>();
+        /*******************************************
+         *  List index from 0 to n-1
+         *  I am using the position of the list as key
+         *  so rather than starting with key 0,
+         *  will add a blank element to the list to fix issue
+         * ******************************************/
+        //insert blank entry
+        list.add(" ");
         btnAdd = (Button)findViewById(R.id.btnAdd);
+        btnAdd.bringToFront();
         // editText = (EditText)findViewById(R.id.editText); --> depricated
-        tv = (TextView)findViewById(R.id.tv_test);
+        //tv = (TextView)findViewById(R.id.tv_test);
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, list);
 
@@ -121,6 +204,21 @@ public class MainActivity extends Activity {
         lv.setAdapter(adapter);
         //ListView onClickLister
 
+        /***********************************
+         *Delete the db contents if needed
+         * ** FOR DEVELOPMENT PURPOSES ONLY**
+         **********************************/
+
+       // deleteDB();
+        //deleteEntry(1);
+        //deleteEntry(2);
+        //deleteEntry(3);
+        //deleteEntry(4);
+
+        /***********************************
+         * Fill the list with values from the database
+         **********************************/
+        fillList();
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -177,6 +275,7 @@ public class MainActivity extends Activity {
                //EditText type = (spinner) dialog.findViewById(R.id.spinner);
                final EditText password = (EditText) dialog.findViewById(R.id.et_password);
                 final EditText cpassword = (EditText) dialog.findViewById(R.id.et_cpassword);
+               final long ID = list.size();
                 //text.setText("Android custom dialog example!");
                 //ImageView image = (ImageView) dialog.findViewById(R.id.image);
                 //image.setImageResource(R.drawable.ic_launcher);
@@ -190,9 +289,24 @@ public class MainActivity extends Activity {
                                                                 "Password :" + password.getText().toString() + "\n" +
                                                                  "Confirm Password: " + cpassword.getText().toString(),Toast.LENGTH_LONG).show();*/
                        // list.add(name.getText().toString());
-                        list.add(name.getText().toString());
-                        adapter.notifyDataSetChanged();
-                        dialog.dismiss();
+                        if(password.getText().toString().equals(cpassword.getText().toString())){
+
+                                 Log.d("Password: Added: ","ID: " + Long.toString(ID)+ "\n" +
+                                         "Name: " + name.getText().toString() + "\n" +
+                                         "Password :" + password.getText().toString());
+                            addToDB(name.getText().toString(), password.getText().toString(), ID);
+                            list.add(name.getText().toString());
+                            adapter.notifyDataSetChanged();
+                            // Toast.makeText(getApplicationContext(),Integer.toString(list.size()),Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Passwords do not mactch!", Toast.LENGTH_LONG).show();
+                        }
+                        //addToDB(name.getText().toString(), password.getText().toString(), ID);
+                       // list.add(name.getText().toString());
+                       // adapter.notifyDataSetChanged();
+                       // Toast.makeText(getApplicationContext(),Integer.toString(list.size()),Toast.LENGTH_LONG).show();
+                       // dialog.dismiss();
 
 
                     }
@@ -221,8 +335,69 @@ public class MainActivity extends Activity {
         });
     }
 
+    public void addToDB(String name, String password, long ID){
+        MySQLiteHelper db = new MySQLiteHelper(this);
+       db.addPasswords(new Passwords(ID,name,password));
+        db.close();
+    }
 
 
+    public void fillList(){
+        MySQLiteHelper db = new MySQLiteHelper(this);
+        List<Passwords> passwords = db.getAllPasswords();
+        for(Passwords pswd: passwords){
+            list.add(pswd.getName().toString());
+            Log.d("PasswordList :", pswd.toString());
+        }
+    }
+
+
+
+
+    /******************************************************
+     *
+     *  For development only
+     *  Used to clear the database while
+     *  the app is being develeoped and tested
+     *
+     *
+     ******************************************************/
+    /*****************************************************
+     *
+     *  While Integrating the db into the UI and list
+     *  use the below lines to delete passwords if neccassary.
+     *
+     *  Just change to id (number) of the password in the deletePasswords method
+     *
+     *****************************************************/
+
+    /*************************************************************
+     * Delete Single Contact
+     *************************************************************/
+    public void deleteEntry(int id) {
+        MySQLiteHelper db = new MySQLiteHelper(this);
+        Passwords ps = new Passwords();
+        Log.d("Deleting Password: ",db.getPasword(id).toString());
+        ps.setId(id); // <-- set the id here
+        db.deletePassword(ps);
+        db.close();
+    }
+
+    /*************************************************************
+     * Delete Entire Database
+     *************************************************************/
+    public void deleteDB(){
+        Passwords ps = new Passwords();
+        MySQLiteHelper db = new MySQLiteHelper(this);
+        long pswdCount = db.getPasswordCount();
+        Log.d("Size: ",Long.toString(pswdCount));
+        for(long i=1; i<=pswdCount;i++){
+            Log.d("Deleting Password: ",db.getPasword(i).toString());
+            ps.setId(i);
+            db.deletePassword(ps);
+            db.close();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
