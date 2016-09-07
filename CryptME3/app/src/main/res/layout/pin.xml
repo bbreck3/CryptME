@@ -7,21 +7,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textView"
+        android:text="----"
+        android:id="@+id/tvPin"
         android:layout_marginTop="47dp"
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/gridLayout"
         android:layout_alignEnd="@+id/gridLayout"
         android:layout_alignLeft="@+id/gridLayout"
-        android:layout_alignStart="@+id/gridLayout" />
+        android:layout_alignStart="@+id/gridLayout"
+        android:textSize="64dp"/>
 
     <GridLayout
         android:layout_width="270dp"
         android:layout_height="400dp"
         android:id="@+id/gridLayout"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/tvPin"
         android:layout_centerHorizontal="true">
 
         <Button
@@ -133,7 +134,29 @@
             android:layout_toLeftOf="@+id/btn9"
             android:layout_toStartOf="@+id/btn9"
             android:layout_row="3"
+            android:layout_column="0" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:text="GO"
+            android:id="@+id/btnGo"
+            android:layout_below="@+id/btn8"
+            android:layout_toLeftOf="@+id/btn9"
+            android:layout_toStartOf="@+id/btn9"
+            android:layout_row="3"
             android:layout_column="1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:text="DEL"
+            android:id="@+id/btnDel"
+            android:layout_alignBottom="@+id/btn8"
+            android:layout_alignLeft="@+id/btn6"
+            android:layout_alignStart="@+id/btn6"
+            android:layout_row="3"
+            android:layout_column="2" />
 
     </GridLayout>
 

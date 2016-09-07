@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipeContainer"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,28 +14,59 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.cryptme3.MainActivity"
-    tools:showIn="@layout/activity_main"
-    android:orientation="vertical">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
     <Button
-        android:layout_width="161dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:text="ADD"
         android:id="@+id/btnAdd"
-        android:layout_alignRight="@+id/listView"
-        android:layout_alignEnd="@+id/listView"
-        android:layout_gravity="right"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="54dp"
+        android:layout_alignRight="@+id/listView"
+        android:layout_alignEnd="@+id/listView">
+
+    </Button>
 
     <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-        android:id="@+id/listView" />
+        android:layout_width="wrap_content"
+        android:layout_height="325dp"
+        android:id="@+id/listView"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/btnDel"
+        android:layout_alignTop="@+id/btnAdd" />
 
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="DELETE"
+        android:id="@+id/btnDel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
 
+        android:layout_above="@+id/btnDELALL" />
+
+    <EditText
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/edDelID"
+        android:layout_alignTop="@+id/btnDel"
+        android:layout_toRightOf="@+id/btnDel"
+        android:layout_below="@+id/listView"
+        android:layout_alignBottom="@+id/btnDel" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DELETE ALL"
+        android:id="@+id/btnDELALL"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/edDelID"
+        android:layout_alignEnd="@+id/edDelID" />
 </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
